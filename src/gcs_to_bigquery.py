@@ -1,7 +1,12 @@
 import os
 import yaml
 from google.cloud import bigquery, storage
+from google.oauth2 import service_account
 
+
+service_account_path = r"C:\Users\Archana Kotagiri\PycharmProjects\mrp_final_cloud_erp_project\MRP_PROJECT\config\SA.json"
+
+credentials = service_account.Credentials.from_service_account_file(service_account_path)
 # Load configuration
 with open("config/config.yaml", "r") as config_file:
     config = yaml.safe_load(config_file)
@@ -13,8 +18,8 @@ BIGQUERY_TABLE = config["bigquery"]["table"]
 BIGQUERY_SCHEMA = config["bigquery"]["schema"]
 
 # Initialize BigQuery and Storage clients
-bigquery_client = bigquery.Client(project="turing-gadget-428216-t7", credentials="priyanka@turing-gadget-428216-t7.iam.gserviceaccount.com")
-storage_client = storage.Client(project="turing-gadget-428216-t7", credentials="priyanka@turing-gadget-428216-t7.iam.gserviceaccount.com")
+bigquery_client = bigquery.Client(project="turing-gadget-428216-t7", credentials=credentials )
+storage_client = storage.Client(project="turing-gadget-428216-t7", credentials=credentials)
 
 
 def create_table_if_not_exists():
